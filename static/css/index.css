@@ -1,0 +1,37 @@
+/* CSS for index.css */
+
+#projects {
+    margin-top: 40px;
+}
+
+.project-list {
+    margin-top: 20px;
+}
+
+.project {
+    margin-bottom: 30px;
+}
+
+.project-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+.tech-stack {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.tech-stack li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tech-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}

@@ -1,0 +1,74 @@
+<!-- templates/index.html -->
+{% extends "layout.html" %}
+{%load static%}
+{% block title %}Home - My Data Science Portfolio{% endblock %}
+
+{% block content %}
+<section id="about" class="container">
+
+        <h2>About Me</h2>
+        <p>
+           My name is Pizzo Gabriel, I live in France and like data science machine learning and more.
+        </p>
+        <ul>
+            <li>Python : django, scikit-learn, pandas, torch </li>
+            <li>R</li>
+            <li>SQL</li>
+
+        <p>you can contact me at gabrielpdata@gmail.com</p>
+
+</section>
+
+<!-- Projects Section -->
+<section id="projects"  class="container">
+
+        <h2><a href="{% url 'project_detail' %}">Projects</a></h2>
+        <div class="project-list">
+            <div class="project">
+                <h3><a href="{% url 'project_detail' %}">Medical Images Classification</a></h3>
+                <p>This project involves classifying medical images using deep learning techniques to assist in lung cancer diagnosis.</p>
+                <ul class="tech-stack">
+                    <li> PyTorch</li>
+                    <li>NumPy</li>
+                </ul>
+            </div>
+        </div>
+
+</section>
+
+<!-- Curriculum Section -->
+<section id="curriculum" class="container">
+    <h2>Curriculum</h2>
+    <p>
+        My curriculum includes a strong foundation in mathematics, computer science, and extensive coursework in data science and machine learning.
+    </p>
+    
+    <h3>Education</h3>
+    <ul>
+        <li>
+            <strong>Bachelor's Degree in Pure Mathematics</strong> (2017 - 2021) - AMU (Aix-Marseille University)
+        </li>
+        <li>
+            <strong>Master's Degree in Applied Mathematics</strong> (2022 - 2024) - Université Lyon 1
+            <ul>
+                <li>Key subjects: Statistics, Python, Machine Learning</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h3>Internship</h3>
+    <ul>
+        <li>
+            <strong>Data Science Intern</strong> (April 2024 - September 2024) - Enedis
+            <ul>
+                <li>Worked extensively with Python, SQL, and Git.</li>
+                <li>Focused on Machine Learning with particular emphasis on scikit-learn.</li>
+            </ul>
+        </li>
+    </ul>
+    
+
+</section>
+{% endblock %}
+
+

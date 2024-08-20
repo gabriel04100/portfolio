@@ -1,0 +1,27 @@
+/* static/css/project_detail.css */
+#drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+#drop-area.highlight {
+    border-color: purple;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+#image-preview {
+    text-align: center;
+}

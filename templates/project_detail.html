@@ -1,0 +1,166 @@
+<!-- templates/project_detail.html -->
+{% extends "layout.html" %}
+{%load static %}
+
+{% block title %}Data science projects {% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <h1>Medical Images Classification</h1>
+    <p>This project leverages deep learning techniques to classify medical images from ct scan into distinct categories such as adenocarcinoma, large cell carcinoma, squamous cell carcinoma, and normal tissues. The goal is to assist in the early detection and accurate diagnosis of lung cancer using image classification models.</p>
+    <p>The training data can be found on Kaggle <a href="https://www.kaggle.com/datasets/mohamedhanyyy/chest-ctscan-images">ct scan</a>
+    <!-- Technical Stack -->
+    <!-- Technical Stack -->
+    <h2>Technical Stack</h2>
+    <ul class="tech-stack">
+        <li>
+            <img src="{% static 'images/python.jpeg' %}" alt="Python" class="tech-icon">
+            <strong>Programming Language:</strong> Python
+        </li>
+        <li>
+            <img src="{% static 'images/pytorch.png' %}" alt="PyTorch" class="tech-icon">
+            <strong>Deep Learning Library:</strong> PyTorch
+        </li>
+        <li>
+            <strong>Model Architecture:</strong> ResNet-18
+        </li>
+        <li>
+            <strong>Deployment:</strong> Django web application
+        </li>
+        <li>
+            <strong>Tools:</strong> NumPy, Pandas, Pillow
+        </li>
+    </ul>  
+
+    <!-- Image Upload and Prediction -->
+    <h2>Try It Out</h2>
+    <p><a href="{% static 'images/default_image.png' %}" download="default_image.png">Download default test image</a></p>
+    <p>Upload an image below to see the model's prediction.</p>
+    <div id="drop-area">
+        <form id="upload-form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            <label class="button" for="fileElem">Select an image</label>
+            <p>or drag and drop here</p>
+        </form>
+    </div>
+
+    <!-- Image preview -->
+    <div id="image-preview" style="margin-top: 20px;">
+        <img id="preview-img" src="" alt="Image Preview" style="max-width: 100%; display: none;" />
+    </div>
+
+    <!-- Result -->
+    <div id="result" style="margin-top: 20px;"></div>
+</div>
+
+<script>
+    let dropArea = document.getElementById('drop-area')
+
+    // Prevent default drag behaviors
+    ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false)
+    })
+
+    // Highlight drop area when item is dragged over it
+    ;['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => dropArea.classList.add('highlight'), false)
+    })
+
+    ;['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => dropArea.classList.remove('highlight'), false)
+    })
+
+    dropArea.addEventListener('drop', handleDrop, false)
+
+    function preventDefaults(e) {
+        e.preventDefault()
+        e.stopPropagation()
+    }
+
+    function handleDrop(e) {
+        let dt = e.dataTransfer
+        let files = dt.files
+        handleFiles(files)
+    }
+
+    function handleFiles(files) {
+        let file = files[0];
+        let formData = new FormData();
+        formData.append('image', file);
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+        // Image preview
+        let previewImg = document.getElementById('preview-img');
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            previewImg.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+
+        // Submit the image for prediction
+        fetch('', {
+            method: 'POST',
+            body: formData
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Prediction result:', data); // Log the result to the console
+            document.getElementById('result').innerText = 'Prediction: ' + data.prediction;
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+            document.getElementById('result').innerText = 'Error: ' + error.message;
+        });
+    }
+</script>
+<style>
+    #drop-area {
+        border: 2px dashed #ccc;
+        border-radius: 20px;
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+    }
+    #drop-area.highlight {
+        border-color: purple;
+    }
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px;
+        cursor: pointer;
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+        border: none;
+    }
+    #image-preview {
+        text-align: center;
+    }
+
+.tech-stack {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tech-stack li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tech-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+</style>
+{% endblock %}
+
