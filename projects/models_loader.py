@@ -1,7 +1,7 @@
 # projects/model_loader.py
 import torch
 from torch import nn
-from torchvision import transforms,models
+from torchvision import transforms, models
 from PIL import Image
 import os
 
@@ -16,6 +16,7 @@ def initialize_model(num_classes=4):
     model.fc = nn.Linear(in_features, num_classes)
     return model
 
+
 # Load the model
 model = initialize_model(num_classes=4)
 model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
@@ -29,20 +30,19 @@ transform = transforms.Compose([
 
 # Mapping from index to class names
 class_names = [
-    "adenocarcinoma_left.lower.lobe", 
-    "large.cell.carcinoma_left.hilum", 
-    "normal", 
+    "adenocarcinoma_left.lower.lobe",
+    "large.cell.carcinoma_left.hilum",
+    "normal",
     "squamous.cell.carcinoma_left.hilum"
 ]
 
+
 def predict_image(image_path):
-    image = Image.open(image_path).convert('RGB')  # Ensure the image is in RGB format
+    image = Image.open(image_path).convert('RGB')  # RGB format
     image = transform(image).unsqueeze(0)
     with torch.no_grad():
         outputs = model(image)
         _, predicted = torch.max(outputs, 1)
-    
     # Convert prediction index to class name
     class_name = class_names[predicted.item()]
     return class_name
-
